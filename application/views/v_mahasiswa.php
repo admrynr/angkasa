@@ -3,7 +3,7 @@
 
 <?php include 'assets/nav_header.php'; ?>
 	<div class="container">
-		<h1 align="center">Data Mahasiswa dengan datatables</h1><br>
+		<h1 align="center">Data Mahasiswa</h1><br>
 		<?php if ($pesan = $this->session->flashdata('pesan')): ?>
 						<div class="form-group">
 							<div class="col-md-12">
