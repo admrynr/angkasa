@@ -1,25 +1,36 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class Welcome extends CI_Controller {
-
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
+	function __construct()
+	{
+		parent::__construct();
+		$this->load->model('login_m');
+		$this->load->model('Welcome_model');
+		if(!$this->session->userdata('username'))
+		{
+			redirect('Login');
+		}
+		$this->load->helper(array('form', 'url','download'));
+	}
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		$data['session']		= $this->session->all_userdata();
+		$username					= $this->session->userdata('username');
+		$data['level']	= $this->login_m->getKodeDivisi($username);
+
+		/*
+		$data['DetailStok']		= $this->Welcome_model->getStokDetail();
+		$data['DetailPR']		= $this->Welcome_model->getPRDetail();
+		$data['DetailPL']		= $this->Welcome_model->getPLDetail();
+		$data['DetailTagihan']	= $this->Welcome_model->getTagihanDetail();
+		*/
+
+		$this->load->view('head');
+		$this->load->view('header');
+		$this->load->view('navigasi',$data);
+		//$this->load->view('dashboard',$data);
+		$this->load->view('right');
+		$this->load->view('footer');
 	}
 }
+
